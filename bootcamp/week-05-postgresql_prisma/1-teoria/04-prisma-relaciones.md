@@ -19,22 +19,24 @@ El caso más común: **una categoría tiene muchos productos**.
 // prisma/schema.prisma
 
 model Category {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(uuid()) @db.Uuid
   name      String    @unique
   products  Product[]            // campo virtual (no es columna en la DB)
 }
 
 model Product {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid()) @db.Uuid
   name        String
   price       Float
   category    Category  @relation(fields: [categoryId], references: [id])
-  categoryId  Int                // columna FK en la tabla products
+  categoryId  String    @db.Uuid // columna FK en la tabla products
 }
 ```
 
 Reglas de la relación 1:N:
 - La FK (`categoryId`) va en la tabla **hijo** (`Product`)
+- La FK debe tener **el mismo tipo que la PK a la que apunta** — si la PK es
+  `String @db.Uuid`, la FK también (`String @db.Uuid`)
 - El campo de lista (`products Product[]`) va en la tabla **padre** (`Category`) — es virtual
 - `@relation(fields: [...], references: [...])` define qué columna apunta a qué
 
@@ -46,25 +48,25 @@ Un producto puede aparecer en muchos pedidos, y un pedido puede tener muchos pro
 
 ```prisma
 model Order {
-  id        Int           @id @default(autoincrement())
+  id        String        @id @default(uuid()) @db.Uuid
   createdAt DateTime      @default(now())
   items     OrderItem[]
 }
 
 model Product {
-  id    Int         @id @default(autoincrement())
+  id    String      @id @default(uuid()) @db.Uuid
   name  String
   items OrderItem[]
 }
 
 // Tabla intermedia explícita (permite campos extras como quantity)
 model OrderItem {
-  id        Int     @id @default(autoincrement())
+  id        String  @id @default(uuid()) @db.Uuid
   quantity  Int     @default(1)
   order     Order   @relation(fields: [orderId],   references: [id])
-  orderId   Int
+  orderId   String  @db.Uuid
   product   Product @relation(fields: [productId], references: [id])
-  productId Int
+  productId String  @db.Uuid
 
   @@unique([orderId, productId])
 }
@@ -75,23 +77,28 @@ model OrderItem {
 ## 3. `include` — cargar datos relacionados
 
 ```ts
+// Los ids son UUID: siempre string
+const productId  = '3f1a9c2e-5b7d-4e81-9a6f-2c8d0b4e7a15';
+const categoryId = '8c4b1d90-6e23-4f57-b0a1-9d3e5f7c2b48';
+const orderId    = 'd2e6f018-4a95-4c3b-8f7e-1b0a6c9d3e52';
+
 // Producto con su categoría
 const product = await prisma.product.findUnique({
-  where: { id: 1 },
+  where: { id: productId },
   include: { category: true },
 });
 // Tipo: Product & { category: Category }
 
 // Categoría con todos sus productos
 const category = await prisma.category.findUnique({
-  where: { id: 1 },
+  where: { id: categoryId },
   include: { products: true },
 });
 // Tipo: Category & { products: Product[] }
 
 // include anidado — pedido con items y los productos de cada item
 const order = await prisma.order.findUnique({
-  where: { id: 1 },
+  where: { id: orderId },
   include: {
     items: {
       include: { product: true },
@@ -151,9 +158,9 @@ Prisma genera un `JOIN` SQL cuando usas `include`, evitando el problema N+1.
 
 ```prisma
 model Product {
-  id         Int       @id @default(autoincrement())
+  id         String    @id @default(uuid()) @db.Uuid
   category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  categoryId Int?
+  categoryId String?   @db.Uuid
 }
 ```
 

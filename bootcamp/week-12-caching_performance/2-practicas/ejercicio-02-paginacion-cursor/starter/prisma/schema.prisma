@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Article {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid()) @db.Uuid
   title     String
   excerpt   String
   author    String

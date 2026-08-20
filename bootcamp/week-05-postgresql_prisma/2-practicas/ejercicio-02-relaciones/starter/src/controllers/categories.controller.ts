@@ -8,9 +8,9 @@ export async function getAll(_req: Request, res: Response, next: NextFunction): 
   } catch (err) { next(err); }
 }
 
-export async function getById(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function getById(req: Request<{ id: string }>, res: Response, next: NextFunction): Promise<void> {
   try {
-    res.json(await service.getCategory(Number(req.params['id'])));
+    res.json(await service.getCategory(req.params['id']));
   } catch (err) { next(err); }
 }
 
@@ -22,17 +22,17 @@ export async function create(req: Request, res: Response, next: NextFunction): P
   } catch (err) { next(err); }
 }
 
-export async function update(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function update(req: Request<{ id: string }>, res: Response, next: NextFunction): Promise<void> {
   try {
     const parsed = updateCategorySchema.safeParse(req.body);
     if (!parsed.success) { res.status(400).json({ status: 'error', message: parsed.error.flatten() }); return; }
-    res.json(await service.updateCategory(Number(req.params['id']), parsed.data));
+    res.json(await service.updateCategory(req.params['id'], parsed.data));
   } catch (err) { next(err); }
 }
 
-export async function remove(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function remove(req: Request<{ id: string }>, res: Response, next: NextFunction): Promise<void> {
   try {
-    await service.deleteCategory(Number(req.params['id']));
+    await service.deleteCategory(req.params['id']);
     res.status(204).send();
   } catch (err) { next(err); }
 }

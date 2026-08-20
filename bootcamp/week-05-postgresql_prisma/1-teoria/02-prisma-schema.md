@@ -57,7 +57,7 @@ datasource db {
 
 // 3. Models — las tablas de tu base de datos
 model Product {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid()) @db.Uuid
   name        String
   price       Float
   stock       Int      @default(0)
@@ -73,6 +73,7 @@ model Product {
 | Tipo Prisma | SQL generado | TypeScript |
 |-------------|-------------|-----------|
 | `String` | `TEXT` | `string` |
+| `String` + `@db.Uuid` | `UUID` | `string` |
 | `Int` | `INTEGER` | `number` |
 | `Float` | `DOUBLE PRECISION` | `number` |
 | `Decimal` | `DECIMAL(65,30)` | `Decimal` |
@@ -85,7 +86,7 @@ model Product {
 
 ```prisma
 model Product {
-  id        Int      @id @default(autoincrement()) // PK autoincremental
+  id        String   @id @default(uuid()) @db.Uuid // PK UUID (convención del bootcamp)
   name      String   @unique                        // Constraint UNIQUE
   slug      String?                                 // Campo opcional (NULL permitido)
   stock     Int      @default(0)                    // Valor por defecto
@@ -97,6 +98,8 @@ model Product {
 | Modificador | Significado |
 |-------------|------------|
 | `@id` | Primary Key |
+| `@default(uuid())` | Genera un UUID v4 al crear el registro |
+| `@db.Uuid` | Guarda la columna con el tipo nativo `UUID` de PostgreSQL |
 | `@unique` | Constraint UNIQUE en la columna |
 | `@default(...)` | Valor por defecto |
 | `?` al final del tipo | Campo opcional (nullable) |

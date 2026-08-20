@@ -19,15 +19,18 @@ datasource db {
 //   - Recurso secundario con relación 1:N
 //   - Timestamps: createdAt y updatedAt
 //
+// La PK SIEMPRE es UUID: id String @id @default(uuid()) @db.Uuid
+// Las FK que apuntan a ella también: authorId String @db.Uuid
+//
 // Ejemplos:
 //
 // Biblioteca:
-//   model Author { id Int @id @default(autoincrement()); name String; ... }
-//   model Book   { id Int @id @default(autoincrement()); isbn String @unique; authorId Int; ... }
+//   model Author { id String @id @default(uuid()) @db.Uuid; name String; ... }
+//   model Book   { id String @id @default(uuid()) @db.Uuid; isbn String @unique; authorId String @db.Uuid; ... }
 //
 // Farmacia:
-//   model Category   { id Int @id ...; name String @unique; ... }
-//   model Medication { id Int @id ...; sku String @unique; categoryId Int?; ... }
+//   model Category   { id String @id ...; name String @unique; ... }
+//   model Medication { id String @id ...; sku String @unique; categoryId String? @db.Uuid; ... }
 //
 // Añade aquí tus modelos:
 // ============================================================

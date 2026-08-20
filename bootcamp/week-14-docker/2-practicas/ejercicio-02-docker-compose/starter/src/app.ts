@@ -33,7 +33,7 @@ app.post('/api/v1/tasks', async (req, res, next) => {
 
 app.patch('/api/v1/tasks/:id', async (req, res, next) => {
   try {
-    const id = Number(req.params.id);
+    const id = req.params.id;
     const { done } = req.body as { done?: boolean };
     const task = await prisma.task.update({ where: { id }, data: { done } });
     res.json(task);
@@ -42,7 +42,7 @@ app.patch('/api/v1/tasks/:id', async (req, res, next) => {
 
 app.delete('/api/v1/tasks/:id', async (req, res, next) => {
   try {
-    const id = Number(req.params.id);
+    const id = req.params.id;
     await prisma.task.delete({ where: { id } });
     res.status(204).send();
   } catch (err) { next(err); }

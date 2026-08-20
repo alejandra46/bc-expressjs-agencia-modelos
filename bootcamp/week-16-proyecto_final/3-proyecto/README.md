@@ -55,7 +55,7 @@ El schema tiene los modelos `User` y `Resource` genéricos. Debes:
 Ejemplo para dominio Biblioteca:
 ```prisma
 model Book {
-  id          String   @id @default(cuid())
+  id          String   @id @default(uuid()) @db.Uuid
   title       String
   author      String
   isbn        String?  @unique

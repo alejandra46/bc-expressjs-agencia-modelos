@@ -27,19 +27,22 @@ const product = await prisma.product.create({
 const products = await prisma.product.findMany();
 
 // READ — por ID (retorna null si no existe)
+// El id es un UUID: siempre string, nunca number
+const productId = '3f1a9c2e-5b7d-4e81-9a6f-2c8d0b4e7a15';
+
 const product = await prisma.product.findUnique({
-  where: { id: 1 },
+  where: { id: productId },
 });
 
 // UPDATE
 const updated = await prisma.product.update({
-  where: { id: 1 },
+  where: { id: productId },
   data: { stock: 3 },
 });
 
 // DELETE
 await prisma.product.delete({
-  where: { id: 1 },
+  where: { id: productId },
 });
 ```
 

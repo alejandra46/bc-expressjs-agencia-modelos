@@ -34,7 +34,7 @@ Una **tabla** es como un array de objetos estructurado, pero con schema fijo:
 ```sql
 -- Tabla products
 CREATE TABLE products (
-  id         SERIAL PRIMARY KEY,
+  id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name       VARCHAR(255) NOT NULL,
   price      DECIMAL(10, 2) NOT NULL,
   stock      INTEGER NOT NULL DEFAULT 0,
@@ -48,7 +48,7 @@ Conceptos clave:
 |----------|-----------|
 | **Fila (row)** | Un registro individual — equivale a un objeto en el array |
 | **Columna (column)** | Un campo del registro — equivale a una propiedad del objeto |
-| **Primary Key (PK)** | Identificador único de cada fila (`id`) |
+| **Primary Key (PK)** | Identificador único de cada fila (`id`) — en este bootcamp siempre `UUID` |
 | **NOT NULL** | La columna es obligatoria |
 | **DEFAULT** | Valor por defecto si no se proporciona |
 
@@ -58,12 +58,17 @@ Conceptos clave:
 
 | Tipo PostgreSQL | Equivalente TypeScript | Caso de uso |
 |-----------------|----------------------|-------------|
-| `INTEGER` / `SERIAL` | `number` | Contadores, cantidades |
+| `UUID` | `string` | **Llaves primarias y foráneas** (convención del bootcamp) |
+| `INTEGER` | `number` | Contadores, cantidades |
+| `SERIAL` | `number` | PK autoincremental — legado, no lo usamos aquí |
 | `VARCHAR(n)` / `TEXT` | `string` | Nombres, descripciones |
 | `DECIMAL(p,s)` / `FLOAT` | `number` | Precios, coordenadas |
 | `BOOLEAN` | `boolean` | Flags activo/inactivo |
 | `TIMESTAMP` | `Date` | Fechas de creación/actualización |
-| `UUID` | `string` | IDs seguros no predecibles |
+
+> **Por qué UUID y no `SERIAL`:** un `SERIAL` expone cuántos registros tiene la
+> tabla y es adivinable (`/products/1`, `/products/2`…). Un `UUID` se genera en la
+> aplicación antes de insertar — sin round-trip a la BD — y no filtra información.
 
 ---
 
@@ -74,16 +79,16 @@ Las **relaciones** conectan tablas entre sí mediante **foreign keys (FK)**:
 ```sql
 -- Tabla categories (padre)
 CREATE TABLE categories (
-  id   SERIAL PRIMARY KEY,
+  id   UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name VARCHAR(100) NOT NULL UNIQUE
 );
 
 -- Tabla products (hijo) — FK hacia categories
 CREATE TABLE products (
-  id          SERIAL PRIMARY KEY,
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name        VARCHAR(255) NOT NULL,
   price       DECIMAL(10,2) NOT NULL,
-  category_id INTEGER REFERENCES categories(id)
+  category_id UUID REFERENCES categories(id)  -- mismo tipo que la PK a la que apunta
 );
 ```
 
@@ -113,10 +118,12 @@ ORDER BY created_at DESC
 LIMIT 10 OFFSET 0;
 
 -- UPDATE
-UPDATE products SET stock = stock - 1 WHERE id = 1;
+UPDATE products SET stock = stock - 1
+WHERE id = '3f1a9c2e-5b7d-4e81-9a6f-2c8d0b4e7a15';
 
 -- DELETE
-DELETE FROM products WHERE id = 1;
+DELETE FROM products
+WHERE id = '3f1a9c2e-5b7d-4e81-9a6f-2c8d0b4e7a15';
 ```
 
 ---

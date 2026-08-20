@@ -379,6 +379,21 @@ export async function createUser(dto) {
 - **Archivos de controladores**: camelCase + sufijo (`user.controller.ts`)
 - **Idioma**: inglés para código, español para documentación
 
+### Llaves primarias en Prisma
+
+- **Toda PK es UUID.** En cualquier `schema.prisma`, sin excepción:
+  ```prisma
+  id String @id @default(uuid()) @db.Uuid
+  ```
+- **Nunca** `Int @id @default(autoincrement())` ni `@default(cuid())`.
+- Las FK que apuntan a una PK deben tener el mismo tipo: `String @db.Uuid`
+  (o `String? @db.Uuid` si la relación es opcional).
+- En SQL crudo el equivalente es `id UUID PRIMARY KEY DEFAULT gen_random_uuid()`
+  (nativo desde PostgreSQL 13; el bootcamp usa `postgres:16-alpine`).
+- Consecuencias en el código: el `:id` de las rutas es un `string` — nunca
+  `Number(req.params.id)` — y los validadores Zod de FK usan
+  `z.string().uuid()`, no `z.number().int()`.
+
 ### Arquitectura en Capas
 
 ```

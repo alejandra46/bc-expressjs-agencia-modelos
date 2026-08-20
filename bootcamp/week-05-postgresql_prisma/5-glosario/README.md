@@ -6,8 +6,14 @@ Términos clave ordenados alfabéticamente.
 
 ## A
 
+**`@db.Uuid`**
+Atributo de Prisma que guarda un campo `String` con el tipo nativo `UUID` de PostgreSQL (16 bytes) en vez de `TEXT`. Se usa junto a `@default(uuid())` en las PK y en las FK que las referencian.
+
 **`@default(autoincrement())`**
-Modificador de campo en Prisma que genera un entero autoincremental como valor por defecto. Equivale a `SERIAL` en PostgreSQL. Se usa casi siempre con `@id` para claves primarias numéricas.
+Modificador que genera un entero autoincremental (`SERIAL` en PostgreSQL). **No se usa en este bootcamp**: todas las llaves primarias son UUID. Aparece aquí solo para que lo reconozcas en código ajeno.
+
+**`@default(uuid())`**
+Modificador que genera un UUID v4 al crear el registro. Es la convención de llave primaria del bootcamp: `id String @id @default(uuid()) @db.Uuid`. Prisma lo genera en la aplicación, sin consultar la base de datos.
 
 **`@id`**
 Modificador que marca un campo como clave primaria del modelo. Cada modelo debe tener exactamente un `@id`.
@@ -112,7 +118,7 @@ Código de error `PrismaClientKnownRequestError` que indica que el registro no f
 Técnica para retornar subconjuntos de datos. `skip: (page-1)*limit` salta los registros anteriores, `take: limit` limita los resultados. Siempre acompañar con `count()` para retornar el total.
 
 **Primary Key (PK)**
-Campo que identifica de forma única cada fila en una tabla. En Prisma se declara con `@id`. Generalmente es un entero autoincremental o un UUID.
+Campo que identifica de forma única cada fila en una tabla. En Prisma se declara con `@id`. En este bootcamp **siempre** es un UUID: `id String @id @default(uuid()) @db.Uuid`.
 
 **Prisma Client**
 Biblioteca TypeScript generada automáticamente por Prisma a partir del `schema.prisma`. Provee métodos tipados (`findMany`, `create`, `update`, etc.) para cada modelo definido.

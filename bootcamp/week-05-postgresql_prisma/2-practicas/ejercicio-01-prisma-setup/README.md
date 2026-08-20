@@ -60,7 +60,7 @@ El modelo `Product` ya tiene su estructura base. **Abre `prisma/schema.prisma`**
 
 ```prisma
 model Product {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid()) @db.Uuid
   name        String
   description String?
   price       Float
@@ -131,9 +131,16 @@ const product = await prisma.product.findUnique({ where: { id } });
 Prueba con cURL o Thunder Client:
 
 ```bash
-curl http://localhost:3000/api/v1/products?page=1&limit=3
-curl http://localhost:3000/api/v1/products/1
+curl "http://localhost:3000/api/v1/products?page=1&limit=3"
+
+# Copia un id del listado anterior — es un UUID, no un número
+curl http://localhost:3000/api/v1/products/<UUID-DEL-LISTADO>
 ```
+
+> **Ojo con el tipo del id.** Como la PK es `UUID`, el `:id` de la ruta es un
+> string y no se convierte con `Number(...)`. Si envías un id que no es un UUID
+> válido (`/products/999`), Prisma lanza `P2023` en vez de `P2025` — no es un
+> 404, es un id mal formado.
 
 ## Paso 5: Operaciones de escritura y manejo de errores
 
@@ -170,12 +177,12 @@ curl -X POST http://localhost:3000/api/v1/products \
   -d '{"name":"Dup","price":9.99,"sku":"PROD-001","stock":5}'
 
 # PUT con ID inexistente → 404
-curl -X PUT http://localhost:3000/api/v1/products/9999 \
+curl -X PUT http://localhost:3000/api/v1/products/00000000-0000-4000-8000-000000000000 \
   -H "Content-Type: application/json" \
   -d '{"price":1.99}'
 
 # DELETE con ID inexistente → 404
-curl -X DELETE http://localhost:3000/api/v1/products/9999
+curl -X DELETE http://localhost:3000/api/v1/products/00000000-0000-4000-8000-000000000000
 ```
 
 ---
@@ -186,7 +193,7 @@ curl -X DELETE http://localhost:3000/api/v1/products/9999
 - [ ] `prisma/migrations/` contiene al menos un directorio con timestamp
 - [ ] `pnpm dlx prisma db seed` inserta 5 productos
 - [ ] `GET /api/v1/products?page=1&limit=2` retorna `{ data: [...], total: 5, page: 1, limit: 2 }`
-- [ ] `GET /api/v1/products/999` retorna `404`
+- [ ] `GET /api/v1/products/00000000-0000-4000-8000-000000000000` (UUID válido inexistente) retorna `404`
 - [ ] `POST` con SKU duplicado retorna `409`
 - [ ] `PUT` con ID inexistente retorna `404`
 - [ ] `DELETE` con ID inexistente retorna `404`

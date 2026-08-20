@@ -9,7 +9,7 @@ export async function listProducts(page: number, limit: number) {
   return repo.findAll(page, limit);
 }
 
-export async function getProduct(id: number) {
+export async function getProduct(id: string) {
   const product = await repo.findById(id);
   if (!product) {
     throw new AppError(404, 'Producto no encontrado');
@@ -21,10 +21,10 @@ export async function createProduct(data: CreateProductDto) {
   return repo.create(data);
 }
 
-export async function updateProduct(id: number, data: UpdateProductDto) {
+export async function updateProduct(id: string, data: UpdateProductDto) {
   return repo.update(id, data);
 }
 
-export async function deleteProduct(id: number) {
+export async function deleteProduct(id: string) {
   return repo.remove(id);
 }

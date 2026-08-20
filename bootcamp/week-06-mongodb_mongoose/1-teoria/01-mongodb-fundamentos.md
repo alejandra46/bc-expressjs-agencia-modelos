@@ -89,7 +89,7 @@ Longitud = 24 caracteres hexadecimales
 Ejemplo  = "664a1f2b3c4d5e6f7a8b9c0d"
 ```
 
-A diferencia del `autoincrement()` de PostgreSQL, el `ObjectId` se genera **en el cliente** antes de insertar el documento, sin necesidad de consultar la BD.
+Igual que el `uuid()` que usamos en Prisma (semana 05), el `ObjectId` se genera **en el cliente** antes de insertar el documento, sin necesidad de consultar la BD. La diferencia es el formato: 24 caracteres hexadecimales con timestamp incrustado (ordenable por creación) frente a los 36 caracteres aleatorios de un UUID v4.
 
 ## Setup con Docker
 

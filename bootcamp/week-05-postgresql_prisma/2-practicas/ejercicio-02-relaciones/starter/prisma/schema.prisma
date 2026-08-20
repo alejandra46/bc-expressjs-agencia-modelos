@@ -15,7 +15,7 @@ datasource db {
 // ============================================================
 
 // model Category {
-//   id        Int       @id @default(autoincrement())
+//   id        String    @id @default(uuid()) @db.Uuid
 //   name      String    @unique
 //   products  Product[]   // Campo virtual — no genera columna en BD
 //   createdAt DateTime  @default(now())
@@ -24,7 +24,7 @@ datasource db {
 // Modelo Product — ya definido del ejercicio 01
 // PASO 1: Descomenta las líneas de relación (category y categoryId)
 model Product {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid()) @db.Uuid
   name        String
   description String?
   price       Float
@@ -36,5 +36,5 @@ model Product {
 
   // Descomenta las dos líneas de abajo:
   // category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  // categoryId Int?
+  // categoryId String?  @db.Uuid
 }

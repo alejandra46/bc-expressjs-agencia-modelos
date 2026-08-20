@@ -36,6 +36,12 @@ week-XX-tema/
   semanas que la usan — no dejes bloques de semanas en versiones distintas de
   una dependencia mayor (pasó con Zod 3 vs 4 y Prisma 6 vs 7, auditado y
   corregido en 2026-07).
+- **Llaves primarias**: toda PK en cualquier `schema.prisma` es
+  `id String @id @default(uuid()) @db.Uuid`. Nunca `autoincrement()`, nunca
+  `cuid()`. Las FK que la referencian llevan el mismo tipo (`String @db.Uuid`),
+  el `:id` de las rutas es `string` (nada de `Number(req.params.id)`) y los
+  validadores Zod de FK usan `z.string().uuid()`. Migrado en todo el bootcamp
+  en 2026-08.
 - **Prisma**: el generador fijado en `schema.prisma` de este repo es
   `prisma-client-js` (estilo Prisma 6), no el generador ESM por defecto de
   Prisma 7. Si algún día se sube la major de `prisma`/`@prisma/client`, hazlo en

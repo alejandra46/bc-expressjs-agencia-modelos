@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Product {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid()) @db.Uuid
   name      String
   price     Float
   stock     Int      @default(0)

@@ -16,9 +16,9 @@ export async function getAll(req: Request, res: Response, next: NextFunction): P
   }
 }
 
-export async function getById(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function getById(req: Request<{ id: string }>, res: Response, next: NextFunction): Promise<void> {
   try {
-    const id = Number(req.params['id']);
+    const id = req.params['id'];
     const product = await service.getProduct(id);
     res.json(product);
   } catch (err) {
@@ -40,9 +40,9 @@ export async function create(req: Request, res: Response, next: NextFunction): P
   }
 }
 
-export async function update(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function update(req: Request<{ id: string }>, res: Response, next: NextFunction): Promise<void> {
   try {
-    const id = Number(req.params['id']);
+    const id = req.params['id'];
     const parsed = updateProductSchema.safeParse(req.body);
     if (!parsed.success) {
       res.status(400).json({ status: 'error', message: parsed.error.flatten() });
@@ -55,9 +55,9 @@ export async function update(req: Request, res: Response, next: NextFunction): P
   }
 }
 
-export async function remove(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function remove(req: Request<{ id: string }>, res: Response, next: NextFunction): Promise<void> {
   try {
-    const id = Number(req.params['id']);
+    const id = req.params['id'];
     await service.deleteProduct(id);
     res.status(204).send();
   } catch (err) {

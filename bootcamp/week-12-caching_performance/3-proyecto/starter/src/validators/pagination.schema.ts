@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 // Paginación por cursor — para el endpoint principal GET /items
 export const cursorPaginationSchema = z.object({
-  cursor: z.string().cuid().optional(),
+  cursor: z.string().uuid().optional(),
   limit: z.coerce.number().int().min(1).max(100).default(20),
 });
 

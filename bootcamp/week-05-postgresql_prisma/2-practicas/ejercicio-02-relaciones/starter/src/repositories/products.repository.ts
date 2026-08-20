@@ -23,7 +23,7 @@ export async function findAll(page: number, limit: number) {
   return { data: products, total, page, limit };
 }
 
-export async function findById(id: number) {
+export async function findById(id: string) {
   const product = await prisma.product.findUnique({
     where: { id },
     // ============================================================
@@ -46,7 +46,7 @@ export async function create(data: CreateProductDto) {
   }
 }
 
-export async function update(id: number, data: UpdateProductDto) {
+export async function update(id: string, data: UpdateProductDto) {
   try {
     return await prisma.product.update({ where: { id }, data });
   } catch (err) {
@@ -57,7 +57,7 @@ export async function update(id: number, data: UpdateProductDto) {
   }
 }
 
-export async function remove(id: number) {
+export async function remove(id: string) {
   try {
     await prisma.product.delete({ where: { id } });
   } catch (err) {

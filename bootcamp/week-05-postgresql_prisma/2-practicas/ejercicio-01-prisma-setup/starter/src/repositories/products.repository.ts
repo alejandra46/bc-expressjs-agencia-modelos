@@ -40,7 +40,7 @@ export async function findAll(page: number, limit: number) {
 // Descomenta la implementación de abajo
 // ============================================================
 
-export async function findById(id: number) {
+export async function findById(id: string) {
   // findUnique retorna null si no existe (NO lanza error)
   // El controller convierte el null en 404
   // Descomenta las siguientes líneas:
@@ -77,7 +77,7 @@ export async function create(data: CreateProductDto) {
 // Descomenta la implementación de abajo
 // ============================================================
 
-export async function update(id: number, data: UpdateProductDto) {
+export async function update(id: string, data: UpdateProductDto) {
   // P2025 = registro no encontrado (update sobre un ID que no existe)
   // Descomenta el bloque completo:
   // try {
@@ -98,7 +98,7 @@ export async function update(id: number, data: UpdateProductDto) {
 // Descomenta la implementación de abajo
 // ============================================================
 
-export async function remove(id: number) {
+export async function remove(id: string) {
   // P2025 aplica también a delete — si el ID no existe lanza el error
   // Descomenta el bloque completo:
   // try {

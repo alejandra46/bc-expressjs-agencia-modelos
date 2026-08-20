@@ -17,7 +17,7 @@
 //   year:      z.number().int().min(1000).max(new Date().getFullYear()),
 //   pages:     z.number().int().positive().optional(),
 //   available: z.boolean().default(true),
-//   authorId:  z.number().int().positive().optional(),
+//   authorId:  z.string().uuid().optional(),  // FK a UUID = string, no number
 // });
 //
 // export const updateItemSchema = createItemSchema.partial();

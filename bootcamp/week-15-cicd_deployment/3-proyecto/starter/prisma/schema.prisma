@@ -13,7 +13,7 @@ datasource db {
 }
 
 model Resource {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid()) @db.Uuid
   name        String
   description String?
   active      Boolean  @default(true)

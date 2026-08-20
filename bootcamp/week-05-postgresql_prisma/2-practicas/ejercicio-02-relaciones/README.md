@@ -54,7 +54,7 @@ starter/
 
 ```prisma
 model Category {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(uuid()) @db.Uuid
   name      String    @unique
   products  Product[] // Campo virtual — Prisma no genera columna
   createdAt DateTime  @default(now())
@@ -63,11 +63,13 @@ model Category {
 model Product {
   // ... campos existentes ...
   category   Category? @relation(fields: [categoryId], references: [id])
-  categoryId Int?       // FK real en base de datos — nullable (opcional)
+  categoryId String?   @db.Uuid // FK real en BD — nullable (opcional)
 }
 ```
 
-> La FK `categoryId` es nullable (`Int?`) para no romper los productos ya existentes.
+> La FK `categoryId` es nullable (`String?`) para no romper los productos ya
+> existentes, y es `String @db.Uuid` porque debe tener **el mismo tipo que la PK
+> a la que apunta** (`Category.id`).
 
 ## Paso 2: Migrar la base de datos
 
@@ -82,14 +84,14 @@ Prisma generará un archivo `migration.sql` similar a:
 ```sql
 -- CreateTable
 CREATE TABLE "Category" (
-    "id" SERIAL NOT NULL,
+    "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
 );
 
 -- AlterTable
-ALTER TABLE "Product" ADD COLUMN "categoryId" INTEGER;
+ALTER TABLE "Product" ADD COLUMN "categoryId" UUID;
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Category_name_key" ON "Category"("name");
@@ -154,12 +156,13 @@ const product = await prisma.product.findUnique({
 Prueba que la respuesta incluye la categoría:
 
 ```bash
-curl http://localhost:3000/api/v1/products/1
+# Copia un id real del listado — es un UUID
+curl http://localhost:3000/api/v1/products/3f1a9c2e-5b7d-4e81-9a6f-2c8d0b4e7a15
 # Resultado esperado:
 # {
-#   "id": 1,
+#   "id": "3f1a9c2e-5b7d-4e81-9a6f-2c8d0b4e7a15",
 #   "name": "Teclado Mecánico",
-#   "category": { "id": 1, "name": "Periféricos", ... },
+#   "category": { "id": "8c4b1d90-6e23-4f57-b0a1-9d3e5f7c2b48", "name": "Periféricos", ... },
 #   ...
 # }
 ```
@@ -180,7 +183,7 @@ Prueba los nuevos endpoints:
 curl http://localhost:3000/api/v1/categories
 
 # Ver categoría con sus productos
-curl http://localhost:3000/api/v1/categories/1
+curl http://localhost:3000/api/v1/categories/8c4b1d90-6e23-4f57-b0a1-9d3e5f7c2b48
 ```
 
 ---
@@ -192,8 +195,8 @@ curl http://localhost:3000/api/v1/categories/1
 - [ ] `Product` tiene columna `categoryId` nullable
 - [ ] El seed crea categorías antes de productos
 - [ ] `GET /api/v1/products` retorna cada producto con su objeto `category`
-- [ ] `GET /api/v1/categories/1` retorna la categoría con su array `products`
-- [ ] `GET /api/v1/products/999` retorna `404` (incluyendo el include)
+- [ ] `GET /api/v1/categories/<UUID>` retorna la categoría con su array `products`
+- [ ] `GET /api/v1/products/00000000-0000-4000-8000-000000000000` (UUID válido inexistente) retorna `404`
 - [ ] No hay bucles `.map()` para cargar categorías (usa `include`)
 - [ ] El diagrama en tu README describe la relación Category → Products
 

@@ -104,22 +104,25 @@ starter/
 
 ## 💡 Ejemplos de Adaptación por Dominio
 
+> **Regla del bootcamp:** toda PK es `id String @id @default(uuid()) @db.Uuid`,
+> y toda FK que la referencia es `String @db.Uuid`. Nunca `Int @default(autoincrement())`.
+
 **Biblioteca:**
 ```prisma
-model Author { id Int @id ...; books Book[] }
-model Book { id Int @id; title String; isbn String @unique; author Author; authorId Int }
+model Author { id String @id @default(uuid()) @db.Uuid; books Book[] }
+model Book { id String @id @default(uuid()) @db.Uuid; title String; isbn String @unique; author Author; authorId String @db.Uuid }
 ```
 
 **Farmacia:**
 ```prisma
-model Category { id Int @id ...; medications Medication[] }
-model Medication { id Int @id; name String; sku String @unique; category Category?; categoryId Int? }
+model Category { id String @id @default(uuid()) @db.Uuid; medications Medication[] }
+model Medication { id String @id @default(uuid()) @db.Uuid; name String; sku String @unique; category Category?; categoryId String? @db.Uuid }
 ```
 
 **Gimnasio:**
 ```prisma
-model Plan { id Int @id ...; members Member[] }
-model Member { id Int @id; email String @unique; plan Plan?; planId Int? }
+model Plan { id String @id @default(uuid()) @db.Uuid; members Member[] }
+model Member { id String @id @default(uuid()) @db.Uuid; email String @unique; plan Plan?; planId String? @db.Uuid }
 ```
 
 ---

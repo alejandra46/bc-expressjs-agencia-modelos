@@ -7,7 +7,7 @@ export const createProductSchema = z.object({
   stock: z.number().int().min(0).default(0),
   sku: z.string().min(1).max(50).regex(/^[A-Z0-9-]+$/),
   active: z.boolean().default(true),
-  categoryId: z.number().int().positive().optional(),
+  categoryId: z.string().uuid().optional(),
 });
 
 export const updateProductSchema = createProductSchema.partial();

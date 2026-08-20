@@ -12,7 +12,7 @@ export async function findAll() {
   });
 }
 
-export async function findById(id: number) {
+export async function findById(id: string) {
   return prisma.category.findUnique({
     where: { id },
     include: { products: true },
@@ -30,7 +30,7 @@ export async function create(data: CreateCategoryDto) {
   }
 }
 
-export async function update(id: number, data: UpdateCategoryDto) {
+export async function update(id: string, data: UpdateCategoryDto) {
   try {
     return await prisma.category.update({ where: { id }, data });
   } catch (err) {
@@ -41,7 +41,7 @@ export async function update(id: number, data: UpdateCategoryDto) {
   }
 }
 
-export async function remove(id: number) {
+export async function remove(id: string) {
   try {
     await prisma.category.delete({ where: { id } });
   } catch (err) {
