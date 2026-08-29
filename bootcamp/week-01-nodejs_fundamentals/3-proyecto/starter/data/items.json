@@ -1,14 +1,92 @@
 [
-  { "id": "i001", "name": "Laptop Pro 15", "category": "electronics", "price": 1299.99, "stock": 12, "active": true },
-  { "id": "i002", "name": "Wireless Mouse", "category": "electronics", "price": 29.99, "stock": 45, "active": true },
-  { "id": "i003", "name": "Standing Desk", "category": "furniture", "price": 499.99, "stock": 3, "active": true },
-  { "id": "i004", "name": "USB-C Hub", "category": "electronics", "price": 59.99, "stock": 28, "active": true },
-  { "id": "i005", "name": "Ergonomic Chair", "category": "furniture", "price": 349.99, "stock": 7, "active": true },
-  { "id": "i006", "name": "Monitor 27\"", "category": "electronics", "price": 399.99, "stock": 15, "active": true },
-  { "id": "i007", "name": "Bookshelf Oak", "category": "furniture", "price": 189.99, "stock": 0, "active": false },
-  { "id": "i008", "name": "Keyboard Mech", "category": "electronics", "price": 149.99, "stock": 22, "active": true },
-  { "id": "i009", "name": "Desk Lamp", "category": "accessories", "price": 45.99, "stock": 33, "active": true },
-  { "id": "i010", "name": "Cable Organizer", "category": "accessories", "price": 12.99, "stock": 60, "active": true },
-  { "id": "i011", "name": "Webcam HD", "category": "electronics", "price": 89.99, "stock": 18, "active": true },
-  { "id": "i012", "name": "Laptop Stand", "category": "accessories", "price": 39.99, "stock": 0, "active": false }
+  {
+    "id": "M001",
+    "name": "Laura Gomez",
+    "category": "fashion",
+    "price": 500000,
+    "age": 22,
+    "city": "Bogota",
+    "active": true
+  },
+  {
+    "id": "M002",
+    "name": "Daniel Torres",
+    "category": "commercial",
+    "price": 350000,
+    "age": 25,
+    "city": "Medellin",
+    "active": true
+  },
+  {
+    "id": "M003",
+    "name": "Sofia Martinez",
+    "category": "editorial",
+    "price": 450000,
+    "age": 21,
+    "city": "Bogota",
+    "active": true
+  },
+  {
+    "id": "M004",
+    "name": "Andres Rodriguez",
+    "category": "fashion",
+    "price": 600000,
+    "age": 24,
+    "city": "Cali",
+    "active": false
+  },
+  {
+    "id": "M005",
+    "name": "Valentina Perez",
+    "category": "commercial",
+    "price": 300000,
+    "age": 23,
+    "city": "Bogota",
+    "active": true
+  },
+  {
+    "id": "M006",
+    "name": "Mateo Sanchez",
+    "category": "fashion",
+    "price": 550000,
+    "age": 26,
+    "city": "Medellin",
+    "active": true
+  },
+  {
+    "id": "M007",
+    "name": "Camila Hernandez",
+    "category": "editorial",
+    "price": 400000,
+    "age": 20,
+    "city": "Bogota",
+    "active": true
+  },
+  {
+    "id": "M008",
+    "name": "Sebastian Moreno",
+    "category": "commercial",
+    "price": 280000,
+    "age": 27,
+    "city": "Cali",
+    "active": false
+  },
+  {
+    "id": "M009",
+    "name": "Isabella Castro",
+    "category": "fashion",
+    "price": 700000,
+    "age": 22,
+    "city": "Bogota",
+    "active": true
+  },
+  {
+    "id": "M010",
+    "name": "Nicolas Ramirez",
+    "category": "commercial",
+    "price": 320000,
+    "age": 24,
+    "city": "Barranquilla",
+    "active": true
+  }
 ]

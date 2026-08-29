@@ -1,0 +1,69 @@
+{
+  "generatedAt": "2026-08-28T21:46:04.785Z",
+  "appliedFilter": "commercial",
+  "summary": {
+    "total": 4,
+    "active": 3,
+    "inactive": 1,
+    "averagePrice": 312500,
+    "mostExpensive": {
+      "id": "M002",
+      "name": "Daniel Torres",
+      "category": "commercial",
+      "price": 350000,
+      "age": 25,
+      "city": "Medellin",
+      "active": true
+    },
+    "cheapest": {
+      "id": "M008",
+      "name": "Sebastian Moreno",
+      "category": "commercial",
+      "price": 280000,
+      "age": 27,
+      "city": "Cali",
+      "active": false
+    },
+    "categories": [
+      "commercial"
+    ]
+  },
+  "items": [
+    {
+      "id": "M002",
+      "name": "Daniel Torres",
+      "category": "commercial",
+      "price": 350000,
+      "age": 25,
+      "city": "Medellin",
+      "active": true
+    },
+    {
+      "id": "M005",
+      "name": "Valentina Perez",
+      "category": "commercial",
+      "price": 300000,
+      "age": 23,
+      "city": "Bogota",
+      "active": true
+    },
+    {
+      "id": "M008",
+      "name": "Sebastian Moreno",
+      "category": "commercial",
+      "price": 280000,
+      "age": 27,
+      "city": "Cali",
+      "active": false
+    },
+    {
+      "id": "M010",
+      "name": "Nicolas Ramirez",
+      "category": "commercial",
+      "price": 320000,
+      "age": 24,
+      "city": "Barranquilla",
+      "active": true
+    }
+  ]
+}

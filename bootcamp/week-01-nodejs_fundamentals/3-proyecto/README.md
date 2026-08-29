@@ -2,104 +2,210 @@
 
 ## 🎯 Objetivo
 
-Construir una herramienta de línea de comandos (CLI) que lea datos desde un archivo JSON, los procese aplicando filtros y transformaciones, y genere un reporte con los resultados — todo usando **Node.js + TypeScript + async/await**.
+Construir una herramienta de línea de comandos que lea datos de modelos desde un archivo JSON, los procese y genere un reporte con los resultados usando **Node.js + TypeScript + async/await**.
 
 ---
 
-## 📋 Tu Dominio Asignado
+## 📋 Dominio: Agencia de Modelos
 
-**El instructor te asignará un dominio específico.** Mientras tanto, el código `starter/` trabaja con un recurso genérico llamado `Item`.
+El proyecto fue adaptado al dominio de una **Agencia de Modelos**.
 
-Cuando recibas tu dominio, renombra:
-- `Item` → el recurso principal de tu dominio (ej. `Book`, `Medicine`, `Member`)
-- `items.json` → el archivo de datos de tu dominio (ej. `books.json`)
-- Los campos de `Item` → atributos propios de tu recurso
+El recurso principal es `Model`.
 
-### 💡 Ejemplos de Adaptación por Dominio
+Cada modelo contiene los siguientes datos:
 
-| Dominio | Recurso | Campos |
-|---------|---------|--------|
-| Biblioteca | `Book` | `title`, `author`, `genre`, `available` |
-| Farmacia | `Medicine` | `name`, `category`, `price`, `stock`, `requiresPrescription` |
-| Gimnasio | `Member` | `name`, `plan`, `active`, `monthlyFee` |
-| Restaurante | `Dish` | `name`, `category`, `price`, `available` |
-| Hotel | `Room` | `number`, `type`, `pricePerNight`, `available` |
+| Campo      | Descripción                     |
+| ---------- | ------------------------------- |
+| `id`       | Identificador del modelo        |
+| `name`     | Nombre del modelo               |
+| `category` | Categoría del modelo            |
+| `price`    | Precio del servicio             |
+| `age`      | Edad del modelo                 |
+| `city`     | Ciudad                          |
+| `active`   | Indica si el modelo está activo |
+
+Las categorías utilizadas son:
+
+* `fashion`
+* `commercial`
+* `editorial`
+
+Los datos se encuentran en:
+
+```text
+starter/data/items.json
+```
+
+El archivo contiene 10 modelos.
 
 ---
 
-## ✅ Requisitos Funcionales
+## ✅ Funcionalidades
 
-### 1. Leer datos desde un archivo JSON
+### 1. Leer datos
 
-La herramienta debe leer el archivo `data/items.json` usando `fs/promises`.
+El programa lee los modelos desde `data/items.json` utilizando `fs/promises` y `async/await`.
 
-### 2. Mostrar un resumen del catálogo
+### 2. Mostrar resumen
 
-- Total de ítems
-- Ítems activos vs inactivos
-- Precio promedio
-- Ítem más caro y más barato
+El programa muestra:
+
+* Total de modelos
+* Modelos activos
+* Modelos inactivos
+* Precio promedio
+* Categorías disponibles
+
+También calcula el modelo más caro y el más barato para el reporte.
 
 ### 3. Filtrar por categoría
 
-Aceptar un argumento de línea de comandos para filtrar por categoría:
+Se puede filtrar los modelos utilizando `--category`.
+
+Ejemplo:
+
 ```bash
-pnpm start -- --category electronics
+pnpm dev -- --category fashion
 ```
 
-### 4. Generar reporte en un archivo de salida
+También se pueden utilizar:
 
-Guardar el reporte en `output/report.json` usando `fs/promises.writeFile`.
+```bash
+pnpm dev -- --category commercial
+```
+
+```bash
+pnpm dev -- --category editorial
+```
+
+### 4. Generar reporte
+
+El resultado del procesamiento se guarda en:
+
+```text
+starter/output/report.json
+```
+
+El reporte contiene la fecha de generación, el filtro aplicado, el resumen y los modelos procesados.
 
 ### 5. Manejo de errores
 
-- Si el archivo `items.json` no existe → mostrar error descriptivo y terminar con `process.exit(1)`
-- Si la categoría no existe → mostrar aviso y listar las categorías disponibles
+El programa utiliza `try/catch` para manejar errores.
 
----
+Si se busca una categoría que no existe, muestra un mensaje indicando las categorías disponibles.
 
-## 🛠️ Entregables
-
-1. **Código funcional** que pase `pnpm build` sin errores TypeScript
-2. **README.md actualizado** con tu dominio y descripción del recurso
-3. **Screenshots o logs** de la herramienta ejecutándose con distintos argumentos
-4. **`data/items.json`** adaptado a tu dominio (mínimo 10 registros)
-5. **Reporte generado** en `output/report.json`
-
----
-
-## ⏱️ Tiempo estimado: 2-3 horas
-
----
-
-## 🧪 Cómo correr el proyecto
+Ejemplo:
 
 ```bash
-cd 3-proyecto/starter
-pnpm install
-pnpm dev              # sin filtro — muestra todos
-pnpm dev -- --category electronics   # con filtro
+pnpm dev -- --category test
 ```
 
 ---
 
-## 📊 Criterios de Evaluación
+## 🛠️ Tecnologías utilizadas
 
-| Criterio | Peso |
-|----------|------|
-| Lee y parsea `items.json` correctamente | 20% |
-| Calcula el resumen (total, promedio, extremos) | 20% |
-| Filtra por categoría con `--category` | 20% |
-| Escribe `output/report.json` correctamente | 20% |
-| Manejo de errores (archivo no encontrado, categoría inexistente) | 10% |
-| TypeScript estricto — `pnpm build` sin errores | 10% |
+* Node.js
+* TypeScript
+* pnpm
+* fs/promises
+* async/await
+* ES Modules
 
 ---
 
-## 🔗 Recursos de Apoyo
+## 🧪 Cómo ejecutar el proyecto
 
-- [Teoría: Módulos ESM](../../1-teoria/02-modulos-esm.md)
-- [Teoría: async/await](../../1-teoria/03-async-await.md)
-- [Ejercicio 01: Hello Node](../../2-practicas/ejercicio-01-hello-node/README.md)
-- [Node.js fs/promises API](https://nodejs.org/docs/latest/api/fs.html#promises-api)
-- [process.argv — Node.js docs](https://nodejs.org/docs/latest/api/process.html#processargv)
+Desde la carpeta `starter`:
+
+```bash
+pnpm install
+```
+
+Para ejecutar el programa:
+
+```bash
+pnpm dev
+```
+
+Para utilizar un filtro:
+
+```bash
+pnpm dev -- --category fashion
+```
+
+Para comprobar que el proyecto compila correctamente:
+
+```bash
+pnpm build
+```
+
+---
+
+## 📁 Estructura principal
+
+```text
+starter/
+├── data/
+│   └── items.json
+├── output/
+│   └── report.json
+├── src/
+│   ├── index.ts
+│   ├── processor.ts
+│   ├── reader.ts
+│   ├── types.ts
+│   └── writer.ts
+├── package.json
+└── tsconfig.json
+```
+
+---
+
+## 📊 Pruebas realizadas
+
+Se probó el programa sin filtro y utilizando las categorías del dominio.
+
+### Sin filtro
+
+```text
+Total de modelos: 10
+Modelos activos: 8
+Modelos inactivos: 2
+Precio promedio: $445000
+Categorías: fashion, commercial, editorial
+```
+
+### Filtro fashion
+
+```text
+Total de modelos: 4
+Modelos activos: 3
+Modelos inactivos: 1
+Precio promedio: $587500
+```
+
+### Filtro commercial
+
+```text
+Total de modelos: 4
+Modelos activos: 3
+Modelos inactivos: 1
+Precio promedio: $312500
+```
+
+### Filtro editorial
+
+```text
+Total de modelos: 2
+Modelos activos: 2
+Modelos inactivos: 0
+Precio promedio: $425000
+```
+
+El reporte se genera correctamente en `output/report.json`.
+
+---
+
+## 📌 Resultado
+
+El proyecto cumple con la lectura y procesamiento de datos, filtrado por categoría, generación del reporte, manejo de errores y configuración de TypeScript en modo estricto.
