@@ -1,43 +1,53 @@
-import type { Item, CreateItemDto, UpdateItemDto } from './types.js';
+import type { Model, CreateModelDto, UpdateModelDto } from './types.js';
 
-// Store en memoria — simula una base de datos sin persistencia
-// Los datos se pierden al reiniciar el servidor (se usará BD a partir de week-05)
-const items: Item[] = [];
+// Store en memoria
+const models: Model[] = [];
 let nextId = 1;
 
-// TODO: Implementar getAll
-// Debe retornar todos los ítems del array
-export function getAll(): Item[] {
-  // TODO: retornar el array de items
-  return [];
+// Obtener todos los modelos
+export function getAll(): Model[] {
+  return models;
 }
 
-// TODO: Implementar getById
-// Debe retornar el ítem con el id dado, o undefined si no existe
-export function getById(id: number): Item | undefined {
-  // TODO: buscar y retornar el ítem
-  return undefined;
+// Buscar un modelo por su id
+export function getById(id: number): Model | undefined {
+  return models.find(model => model.id === id);
 }
 
-// TODO: Implementar create
-// Debe crear un nuevo ítem con un id autoincremental y retornarlo
-export function create(data: CreateItemDto): Item {
-  // TODO: crear, guardar y retornar el nuevo ítem
-  // Pista: usa nextId++ para generar el id
-  const newItem: Item = { id: nextId++, ...data };
-  return newItem;
+// Crear un modelo
+export function create(data: CreateModelDto): Model {
+  const newModel: Model = {
+    id: nextId++,
+    ...data
+  };
+
+  models.push(newModel);
+
+  return newModel;
 }
 
-// TODO: Implementar update
-// Debe actualizar el ítem con el id dado y retornarlo, o undefined si no existe
-export function update(id: number, data: UpdateItemDto): Item | undefined {
-  // TODO: buscar el ítem, actualizar sus campos y retornarlo
-  return undefined;
+// Actualizar un modelo
+export function update(id: number, data: UpdateModelDto): Model | undefined {
+  const model = models.find(model => model.id === id);
+
+  if (!model) {
+    return undefined;
+  }
+
+  Object.assign(model, data);
+
+  return model;
 }
 
-// TODO: Implementar remove
-// Debe eliminar el ítem con el id dado y retornar true, o false si no existe
+// Eliminar un modelo
 export function remove(id: number): boolean {
-  // TODO: buscar y eliminar el ítem, retornar éxito
-  return false;
+  const index = models.findIndex(model => model.id === id);
+
+  if (index === -1) {
+    return false;
+  }
+
+  models.splice(index, 1);
+
+  return true;
 }

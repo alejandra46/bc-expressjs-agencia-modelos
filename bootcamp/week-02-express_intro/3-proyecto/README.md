@@ -1,165 +1,126 @@
-# Proyecto Semana 02 — Servidor Express con CRUD completo
+# Proyecto Semana 02 — Agencia de Modelos
 
 ## 🎯 Objetivo
 
-Aplicar todo lo aprendido en la semana 02 para construir una API REST con Express 5 y TypeScript sobre tu **dominio asignado**: gestión de recursos con operaciones CRUD, middlewares personalizados y manejo correcto de códigos HTTP.
+Construir una API REST con Express 5 y TypeScript para gestionar modelos de una agencia, aplicando operaciones CRUD, middlewares y códigos de respuesta HTTP.
 
 ---
 
-## 📋 Tu Dominio Asignado
+## 📋 Mi Dominio
 
-> **Dominio**: _El instructor te asignará tu dominio al inicio del bootcamp._
+**Dominio:** Agencia de modelos
 
-Cada aprendiz trabaja sobre un dominio diferente para garantizar implementaciones originales. Ejemplos de adaptación:
+**Recurso principal:** Models
 
-| Dominio | Recurso principal | Campos típicos |
-|---------|-------------------|----------------|
-| Biblioteca | Libro | título, autor, ISBN, año |
-| Farmacia | Medicamento | nombre, precio, stock, categoría |
-| Gimnasio | Miembro | nombre, plan, fechaVencimiento |
-| Restaurante | Platillo | nombre, precio, categoría, disponible |
-| Hotel | Habitación | número, tipo, precio, disponible |
+Los modelos representan las personas registradas en la agencia.
 
-Adapta los nombres y campos a **tu dominio específico**.
+### Campos del recurso
+
+| Campo | Tipo   | Descripción              |
+| ----- | ------ | ------------------------ |
+| id    | number | Identificador del modelo |
+| name  | string | Nombre del modelo        |
+| age   | number | Edad                     |
+| city  | string | Ciudad                   |
+| phone | string | Número de teléfono       |
 
 ---
 
 ## 🗂️ Estructura del proyecto
 
-```
+```text
 starter/
 ├── package.json
 ├── tsconfig.json
 ├── .env.example
+├── pnpm-lock.yaml
 └── src/
-    ├── app.ts           # Configurar Express: middlewares + rutas
-    ├── server.ts        # Entry point: arrancar servidor
-    ├── types.ts         # Interfaz del recurso principal
-    ├── store.ts         # Store en memoria con operaciones CRUD
+    ├── app.ts
+    ├── server.ts
+    ├── types.ts
+    ├── store.ts
     └── routes/
-        └── items.routes.ts  # 5 endpoints CRUD
+        └── items.routes.ts
 ```
 
 ---
 
-## ✅ Requisitos funcionales
+## ✅ Endpoints
 
-### 1. Endpoints requeridos
+| Método | Ruta                 | Descripción              | Status    |
+| ------ | -------------------- | ------------------------ | --------- |
+| GET    | `/api/v1/models`     | Listar todos los modelos | 200       |
+| GET    | `/api/v1/models/:id` | Obtener un modelo por ID | 200 / 404 |
+| POST   | `/api/v1/models`     | Crear un modelo          | 201       |
+| PUT    | `/api/v1/models/:id` | Actualizar un modelo     | 200 / 404 |
+| DELETE | `/api/v1/models/:id` | Eliminar un modelo       | 204 / 404 |
 
-| Método | Ruta | Descripción | Status code |
-|--------|------|-------------|-------------|
-| GET | `/api/v1/items` | Listar todos los recursos | 200 |
-| GET | `/api/v1/items/:id` | Obtener un recurso por ID | 200 / 404 |
-| POST | `/api/v1/items` | Crear un nuevo recurso | 201 |
-| PUT | `/api/v1/items/:id` | Actualizar un recurso completo | 200 / 404 |
-| DELETE | `/api/v1/items/:id` | Eliminar un recurso | 204 / 404 |
+También se agregó:
 
-> Reemplaza `items` por el nombre plural de tu recurso: `books`, `medications`, `members`, etc.
+```text
+GET /health
+```
 
-### 2. Middlewares requeridos
-
-- **express.json()** — parseo de body
-- **Logger personalizado** — registra método, URL, status y tiempo
-- **Handler 404** — para rutas no encontradas
-- **Error handler global** — 4 parámetros, siempre último
-
-### 3. Store en memoria
-
-El proyecto usa un array en memoria (sin base de datos). Implementar en `store.ts`:
-
-- `getAll()` — retorna todos los ítems
-- `getById(id)` — retorna un ítem o `undefined`
-- `create(data)` — agrega y retorna el nuevo ítem
-- `update(id, data)` — actualiza y retorna el ítem, o `undefined`
-- `remove(id)` — elimina y retorna `boolean`
+que permite comprobar que el servidor está funcionando.
 
 ---
 
-## 💡 Instrucciones de implementación
+## 🔧 Middlewares
 
-### Paso 1: Define tu interfaz en `types.ts`
+Se implementaron los middlewares solicitados:
 
-```ts
-// Adapta los campos a tu dominio:
-export interface Item {
-  id: number;
-  // TODO: agregar campos específicos de tu dominio
-  // Ejemplo biblioteca: title: string; author: string; isbn: string;
-  // Ejemplo farmacia: name: string; price: number; stock: number;
-}
+* `express.json()` para recibir datos en formato JSON.
+* Logger personalizado para mostrar método, URL, código de respuesta y tiempo.
+* Handler 404 para rutas que no existen.
+* Error handler global para manejar errores del servidor.
 
-export type CreateItemDto = Omit<Item, 'id'>;
-```
+---
 
-### Paso 2: Implementa el store en `store.ts`
+## 💾 Store en memoria
 
-```ts
-// TODO: Implementar las 5 operaciones CRUD
-// Usa el array en memoria como base de datos temporal
-```
+Los modelos se almacenan en un array dentro de `store.ts`.
 
-### Paso 3: Implementa las rutas en `routes/items.routes.ts`
+Se implementaron las siguientes funciones:
 
-```ts
-// TODO: Implementar los 5 endpoints usando el store
-// Usar los status codes correctos: 200, 201, 204, 404
-```
+* `getAll()` — obtiene todos los modelos.
+* `getById(id)` — busca un modelo por su ID.
+* `create(data)` — crea un modelo y genera su ID.
+* `update(id, data)` — actualiza un modelo.
+* `remove(id)` — elimina un modelo.
 
-### Paso 4: Configura `app.ts` con los middlewares en orden
+Los datos no son permanentes y se pierden cuando se reinicia el servidor.
 
-```ts
-// TODO: Registrar middleware en el orden correcto
-// 1. express.json()
-// 2. logger
-// 3. rutas
-// 4. 404 handler
-// 5. error handler
-```
+---
 
-### Paso 5: Arranca en `server.ts`
+## 🧪 Pruebas realizadas
 
-```ts
-// TODO: Implementar graceful shutdown (SIGTERM + SIGINT)
+Se probaron las operaciones CRUD y las respuestas esperadas:
+
+* GET todos los modelos → `200`
+* POST crear modelo → `201`
+* GET modelo por ID → `200`
+* PUT actualizar modelo → `200`
+* DELETE modelo → `204`
+* GET de un modelo inexistente → `404`
+* Acceso a una ruta inexistente → `404`
+
+También se comprobó el endpoint `/health`.
+
+El servidor se ejecutó localmente en:
+
+```text
+http://localhost:3001
 ```
 
 ---
 
-## 🧪 Pruebas con curl
+## 📦 Entrega
 
-Una vez implementado, verifica con los siguientes comandos (adapta el recurso a tu dominio):
+El proyecto contiene:
 
-```bash
-# Listar
-curl http://localhost:3000/api/v1/items
-
-# Crear
-curl -X POST http://localhost:3000/api/v1/items \
-  -H "Content-Type: application/json" \
-  -d '{ /* campos de tu dominio */ }'
-
-# Obtener por ID
-curl http://localhost:3000/api/v1/items/1
-
-# Actualizar
-curl -X PUT http://localhost:3000/api/v1/items/1 \
-  -H "Content-Type: application/json" \
-  -d '{ /* campos actualizados */ }'
-
-# Eliminar
-curl -X DELETE http://localhost:3000/api/v1/items/1
-# Esperar: 204 sin body
-```
-
----
-
-## 📦 Entregables
-
-1. **Código fuente** del proyecto adaptado a tu dominio
-2. **Screenshots** de Postman o Thunder Client con las 5 operaciones funcionando
-3. **README** describiendo tu dominio, el recurso implementado y decisiones de diseño
-
----
-
-## 🔗 Criterios de evaluación
-
-Ver [rubrica-evaluacion.md](../../rubrica-evaluacion.md) sección "Proyecto Semanal".
+* Código fuente de la API.
+* CRUD completo para el recurso `models`.
+* Middlewares requeridos.
+* Store en memoria.
+* Configuración de Express y TypeScript.
+* Pruebas de los endpoints.

@@ -1,35 +1,56 @@
 import express from 'express';
 import type { Application, Request, Response, NextFunction } from 'express';
-import { itemsRouter } from './routes/items.routes.js';
+import { modelsRouter } from './routes/models.routes.js';
 
 export function createApp(): Application {
   const app = express();
 
-  // TODO: Registrar middleware en este orden exacto:
-  //
-  // 1. express.json() — parseo de body (requerido para POST/PUT)
-  // app.use(express.json());
-  //
-  // 2. Logger personalizado — loggear todas las peticiones
-  // app.use((req, res, next) => {
-  //   TODO: implementar logger similar al ejercicio-02
-  // });
-  //
-  // 3. Health check (no requiere middleware especial)
-  // app.get('/health', (_req, res) => { res.json({ status: 'ok' }); });
-  //
-  // 4. Rutas del recurso principal
-  // app.use('/api/v1/items', itemsRouter);
-  //
-  // 5. Handler para rutas no encontradas (404)
-  // app.use((_req, res) => {
-  //   res.status(404).json({ error: 'Route not found' });
-  // });
-  //
-  // 6. Error handler global — SIEMPRE el último app.use()
-  // app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-  //   TODO: implementar error handler
-  // });
+  // Parsear JSON
+  app.use(express.json());
+
+  // Logger personalizado
+  app.use((req, res, next) => {
+    const start = Date.now();
+
+    res.on('finish', () => {
+      const time = Date.now() - start;
+
+      console.log(
+        `${req.method} ${req.originalUrl} ${res.statusCode} - ${time}ms`
+      );
+    });
+
+    next();
+  });
+
+  // Health check
+  app.get('/health', (_req, res) => {
+    res.json({ status: 'ok' });
+  });
+
+  // Rutas de modelos
+  app.use('/api/v1/models', modelsRouter);
+
+  // Rutas no encontradas
+  app.use((_req, res) => {
+    res.status(404).json({ error: 'Route not found' });
+  });
+
+  // Error handler global
+  app.use(
+    (
+      err: Error,
+      _req: Request,
+      res: Response,
+      _next: NextFunction
+    ) => {
+      console.error(err);
+
+      res.status(500).json({
+        error: 'Internal server error'
+      });
+    }
+  );
 
   return app;
 }
