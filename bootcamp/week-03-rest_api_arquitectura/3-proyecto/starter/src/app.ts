@@ -2,7 +2,7 @@
 // APP — Configuración Express
 // ============================================
 import express from 'express';
-import { itemsRouter } from './routes/items.routes';
+import { modelsRouter } from './routes/models.routes';
 import { ErrorResponse } from './types';
 
 const app = express();
@@ -13,8 +13,8 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', week: '03', project: 'api-arquitectura' });
 });
 
-// TODO: Cambia 'items' por la ruta de tu dominio (ej: 'books', 'medicines')
-app.use('/api/v1/items', itemsRouter);
+// Ruta principal del dominio de modelos
+app.use('/api/v1/models', modelsRouter);
 
 // Error handler — no modificar
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {

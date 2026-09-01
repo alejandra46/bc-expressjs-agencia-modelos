@@ -1,27 +1,24 @@
 // ============================================
-// TYPES — Adapta estos tipos a tu dominio
+// TYPES — Agencia de modelos
 // ============================================
-// NOTA: Renombra "Item" por el recurso de tu dominio.
-// Ejemplos: Book, Medicine, Member, Dish, Patient, Movie...
-//
-// Agrega o quita campos según las características de tu dominio.
 
-// TODO: Renombra Item y ajusta los campos a tu dominio asignado
-export interface Item {
+export interface Model {
   id: number;
-  name: string;        // Renombra o elimina según tu dominio
-  description: string; // Ej: price, dosage, plan, genre...
-  active: boolean;     // Ej: available, inStock, published...
+  name: string;
+  age: number;
+  height: number;
+  city: string;
+  available: boolean;
   createdAt: string;
 }
 
 // DTO para crear — sin campos auto-generados
-export type CreateItemDto = Omit<Item, 'id' | 'createdAt'>;
+export type CreateModelDto = Omit<Model, 'id' | 'createdAt'>;
 
 // DTO para actualizar — todos los campos opcionales
-export type UpdateItemDto = Partial<CreateItemDto>;
+export type UpdateModelDto = Partial<CreateModelDto>;
 
-// Contratos de respuesta (no cambiar nombres — son genéricos)
+// Contratos de respuesta
 export interface SingleResponse<T> {
   data: T;
 }

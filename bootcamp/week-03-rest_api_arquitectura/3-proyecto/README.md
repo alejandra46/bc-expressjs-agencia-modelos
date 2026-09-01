@@ -1,30 +1,38 @@
-# 🚀 Proyecto Semana 03 — API REST con Arquitectura en Capas
+# 🚀 Proyecto Semana 03 — API REST Agencia de Modelos
 
 ## 🎯 Objetivo
 
-Construir una API REST completa aplicando la arquitectura en 4 capas (`routes → controllers → services → repositories`) con contratos de respuesta tipados en TypeScript.
+Construir una API REST para gestionar modelos de una agencia, aplicando una arquitectura en capas:
+
+`routes → controllers → services → repositories`
+
+El proyecto está desarrollado con Node.js, Express y TypeScript.
 
 ---
 
-## 📋 Tu Dominio Asignado
+## 📋 Dominio
 
-**Dominio**: _El instructor te asignará tu dominio único._
+**Agencia de modelos**
 
-Ejemplos de dominios posibles:
-- 📖 Biblioteca → recursos: `books`
-- 💊 Farmacia → recursos: `medicines`
-- 🏋️ Gimnasio → recursos: `members`
-- 🍽️ Restaurante → recursos: `dishes`
-- 🏥 Hospital → recursos: `patients`
-- 🎥 Cine → recursos: `movies`
+El recurso principal de la API es `models`.
 
-Adapta **todos los nombres, campos y lógica** al dominio que recibas. El starter usa `items` como nombre genérico.
+Cada modelo contiene los siguientes campos:
+
+| Campo       | Tipo    | Descripción               |
+| ----------- | ------- | ------------------------- |
+| `id`        | number  | Identificador único       |
+| `name`      | string  | Nombre del modelo         |
+| `age`       | number  | Edad                      |
+| `height`    | number  | Altura en metros          |
+| `city`      | string  | Ciudad                    |
+| `available` | boolean | Disponibilidad del modelo |
+| `createdAt` | string  | Fecha de creación         |
 
 ---
 
-## 📁 Estructura del starter
+## 📁 Estructura del proyecto
 
-```
+```text
 starter/
 ├── package.json
 ├── tsconfig.json
@@ -32,113 +40,178 @@ starter/
 └── src/
     ├── app.ts
     ├── server.ts
-    ├── types.ts              # Tipos a completar para tu dominio
+    ├── types.ts
     ├── routes/
-    │   └── items.routes.ts   # TODO: registrar endpoints
+    │   └── models.routes.ts
     ├── controllers/
-    │   └── items.controller.ts # TODO: thin CRUD controller
+    │   └── models.controller.ts
     ├── services/
-    │   └── items.service.ts    # TODO: lógica con paginación
+    │   └── models.service.ts
     └── repositories/
-        └── items.repository.ts # TODO: async CRUD + copias defensivas
+        └── models.repository.ts
 ```
 
 ---
 
-## ✅ Requisitos Funcionales
+## 🔗 Endpoints
 
-Implementa los siguientes endpoints (adaptados a tu dominio):
+| Método | Ruta                 | Status | Descripción              |
+| ------ | -------------------- | -----: | ------------------------ |
+| GET    | `/api/v1/models`     |    200 | Listar modelos           |
+| GET    | `/api/v1/models/:id` |    200 | Obtener un modelo por ID |
+| POST   | `/api/v1/models`     |    201 | Crear un modelo          |
+| PUT    | `/api/v1/models/:id` |    200 | Actualizar un modelo     |
+| DELETE | `/api/v1/models/:id` |    204 | Eliminar un modelo       |
 
-| Método | Ruta                 | Status exitoso | Descripción                         |
-|--------|----------------------|----------------|-------------------------------------|
-| GET    | `/api/v1/items`      | 200            | Listar con paginación `?page&limit` |
-| GET    | `/api/v1/items/:id`  | 200            | Obtener por ID                      |
-| POST   | `/api/v1/items`      | 201            | Crear nuevo recurso                 |
-| PUT    | `/api/v1/items/:id`  | 200            | Actualizar recurso existente        |
-| DELETE | `/api/v1/items/:id`  | 204            | Eliminar recurso                    |
+También se dispone del endpoint:
 
-### Contratos de respuesta obligatorios
+```text
+GET /health
+```
+
+para comprobar que el servidor está funcionando.
+
+---
+
+## 📄 Paginación
+
+El listado de modelos permite utilizar los parámetros `page` y `limit`.
+
+Ejemplo:
+
+```text
+GET /api/v1/models?page=1&limit=2
+```
+
+Respuesta:
 
 ```json
-// GET /items?page=1&limit=5 → 200
-{ "data": [...], "total": 20, "page": 1, "limit": 5 }
-
-// GET /items/1 → 200
-{ "data": { "id": 1, ... } }
-
-// POST /items → 201
-{ "data": { "id": 6, ... } }
-
-// GET /items/999 → 404
-{ "error": "Not Found", "message": "Item 999 not found" }
-```
-
----
-
-## 💡 Ejemplos de Adaptación por Dominio
-
-**Biblioteca — books:**
-```ts
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-  isbn: string;
-  available: boolean;
-  createdAt: string;
-}
-```
-
-**Farmacia — medicines:**
-```ts
-interface Medicine {
-  id: number;
-  name: string;
-  dosage: string;
-  stock: number;
-  expiresAt: string;
-  createdAt: string;
-}
-```
-
-**Gimnasio — members:**
-```ts
-interface Member {
-  id: number;
-  fullName: string;
-  plan: 'basic' | 'premium';
-  active: boolean;
-  joinedAt: string;
-  createdAt: string;
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Laura Gómez",
+      "age": 22,
+      "height": 1.75,
+      "city": "Bogotá",
+      "available": true,
+      "createdAt": "2026-08-31T19:04:41.991Z"
+    }
+  ],
+  "total": 3,
+  "page": 1,
+  "limit": 2
 }
 ```
 
 ---
 
-## 🏗️ Reglas de Arquitectura
+## 📝 Ejemplo para crear un modelo
 
-1. **Repository**: única capa que toca el store. Todos los métodos `async Promise<T>`.
-2. **Service**: sin imports de Express. Contiene la paginación y validaciones de dominio.
-3. **Controller**: exactamente 3 pasos — extraer → llamar service → responder.
-4. **Routes**: solo mapeo URL → controller function.
+```http
+POST /api/v1/models
+Content-Type: application/json
+```
+
+```json
+{
+  "name": "Valentina Rojas",
+  "age": 21,
+  "height": 1.72,
+  "city": "Medellín",
+  "available": true
+}
+```
+
+Respuesta:
+
+```json
+{
+  "data": {
+    "id": 4,
+    "name": "Valentina Rojas",
+    "age": 21,
+    "height": 1.72,
+    "city": "Medellín",
+    "available": true,
+    "createdAt": "2026-08-31T18:41:28.368Z"
+  }
+}
+```
 
 ---
 
-## 🛠️ Instrucciones
+## ❌ Manejo de errores
 
-1. Clona/copia el `starter/`
-2. Instala dependencias: `pnpm install`
-3. Copia `.env.example` a `.env`
-4. Renombra `items` por el recurso de tu dominio en todos los archivos
-5. Define los campos de tu `Item` en `types.ts`
-6. Implementa en orden: repository → service → controller → routes
-7. Verifica con `pnpm dev` y prueba con Thunder Client o curl
+Cuando un modelo no existe, la API responde con estado `404`.
+
+Ejemplo:
+
+```http
+GET /api/v1/models/999
+```
+
+Respuesta:
+
+```json
+{
+  "error": "Not Found",
+  "message": "Model 999 not found"
+}
+```
 
 ---
 
-## 📌 Entregables
+## 🏗️ Arquitectura
 
-1. Código fuente con tu dominio aplicado (sin `items` genérico)
-2. Screenshot de Thunder Client con los 5 endpoints funcionando
-3. Screenshot de `pnpm build` sin errores TypeScript
-4. README actualizado describiendo tu API (dominio, campos, ejemplos)
+El proyecto está organizado en cuatro capas:
+
+* **Routes:** define las rutas y las relaciona con los controllers.
+* **Controllers:** recibe las peticiones HTTP y devuelve las respuestas.
+* **Services:** contiene la lógica de negocio y la paginación.
+* **Repositories:** maneja los datos almacenados en memoria.
+
+---
+
+## 🛠️ Ejecución
+
+Instalar dependencias:
+
+```bash
+pnpm install
+```
+
+Ejecutar en desarrollo:
+
+```bash
+pnpm dev
+```
+
+El servidor se ejecuta en:
+
+```text
+http://localhost:3001
+```
+
+Comprobar la compilación:
+
+```bash
+pnpm build
+```
+
+---
+
+## ✅ Pruebas realizadas
+
+Se probaron los principales endpoints de la API:
+
+* `GET /health`
+* `GET /api/v1/models`
+* `GET /api/v1/models/:id`
+* `POST /api/v1/models`
+* `PUT /api/v1/models/:id`
+* `DELETE /api/v1/models/:id`
+* Paginación mediante `page` y `limit`
+* Respuesta `404` para modelos inexistentes
+
+La compilación TypeScript se realizó correctamente con `pnpm build`.
