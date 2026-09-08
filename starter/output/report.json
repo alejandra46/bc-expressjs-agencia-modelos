@@ -1,0 +1,125 @@
+{
+  "generatedAt": "2026-09-08T18:40:14.461Z",
+  "appliedFilter": null,
+  "summary": {
+    "total": 10,
+    "active": 8,
+    "inactive": 2,
+    "averagePrice": 445000,
+    "mostExpensive": {
+      "id": "M009",
+      "name": "Isabella Castro",
+      "category": "fashion",
+      "price": 700000,
+      "age": 22,
+      "city": "Bogota",
+      "active": true
+    },
+    "cheapest": {
+      "id": "M008",
+      "name": "Sebastian Moreno",
+      "category": "commercial",
+      "price": 280000,
+      "age": 27,
+      "city": "Cali",
+      "active": false
+    },
+    "categories": [
+      "fashion",
+      "commercial",
+      "editorial"
+    ]
+  },
+  "items": [
+    {
+      "id": "M001",
+      "name": "Laura Gomez",
+      "category": "fashion",
+      "price": 500000,
+      "age": 22,
+      "city": "Bogota",
+      "active": true
+    },
+    {
+      "id": "M002",
+      "name": "Daniel Torres",
+      "category": "commercial",
+      "price": 350000,
+      "age": 25,
+      "city": "Medellin",
+      "active": true
+    },
+    {
+      "id": "M003",
+      "name": "Sofia Martinez",
+      "category": "editorial",
+      "price": 450000,
+      "age": 21,
+      "city": "Bogota",
+      "active": true
+    },
+    {
+      "id": "M004",
+      "name": "Andres Rodriguez",
+      "category": "fashion",
+      "price": 600000,
+      "age": 24,
+      "city": "Cali",
+      "active": false
+    },
+    {
+      "id": "M005",
+      "name": "Valentina Perez",
+      "category": "commercial",
+      "price": 300000,
+      "age": 23,
+      "city": "Bogota",
+      "active": true
+    },
+    {
+      "id": "M006",
+      "name": "Mateo Sanchez",
+      "category": "fashion",
+      "price": 550000,
+      "age": 26,
+      "city": "Medellin",
+      "active": true
+    },
+    {
+      "id": "M007",
+      "name": "Camila Hernandez",
+      "category": "editorial",
+      "price": 400000,
+      "age": 20,
+      "city": "Bogota",
+      "active": true
+    },
+    {
+      "id": "M008",
+      "name": "Sebastian Moreno",
+      "category": "commercial",
+      "price": 280000,
+      "age": 27,
+      "city": "Cali",
+      "active": false
+    },
+    {
+      "id": "M009",
+      "name": "Isabella Castro",
+      "category": "fashion",
+      "price": 700000,
+      "age": 22,
+      "city": "Bogota",
+      "active": true
+    },
+    {
+      "id": "M010",
+      "name": "Nicolas Ramirez",
+      "category": "commercial",
+      "price": 320000,
+      "age": 24,
+      "city": "Barranquilla",
+      "active": true
+    }
+  ]
+}

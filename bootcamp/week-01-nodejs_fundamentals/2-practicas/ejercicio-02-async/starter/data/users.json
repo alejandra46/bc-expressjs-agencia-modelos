@@ -1,7 +1,0 @@
-[
-  { "id": "u001", "name": "Ana Torres", "email": "ana@example.com", "role": "admin", "active": true },
-  { "id": "u002", "name": "Luis Mendez", "email": "luis@example.com", "role": "user", "active": true },
-  { "id": "u003", "name": "Sara Ruiz", "email": "sara@example.com", "role": "user", "active": false },
-  { "id": "u004", "name": "Carlos Vega", "email": "carlos@example.com", "role": "user", "active": true },
-  { "id": "u005", "name": "Elena Castro", "email": "elena@example.com", "role": "moderator", "active": true }
-]
