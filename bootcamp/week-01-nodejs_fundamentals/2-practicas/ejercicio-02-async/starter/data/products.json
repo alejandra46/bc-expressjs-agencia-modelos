@@ -1,6 +1,0 @@
-[
-  { "id": "p001", "name": "Laptop Pro 15", "category": "electronics", "price": 1299.99, "stock": 12 },
-  { "id": "p002", "name": "Wireless Mouse", "category": "electronics", "price": 29.99, "stock": 45 },
-  { "id": "p003", "name": "Standing Desk", "category": "furniture", "price": 499.99, "stock": 3 },
-  { "id": "p004", "name": "USB-C Hub", "category": "electronics", "price": 59.99, "stock": 28 }
-]
