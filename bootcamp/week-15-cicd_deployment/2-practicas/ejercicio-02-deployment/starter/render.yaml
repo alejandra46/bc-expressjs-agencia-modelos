@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: mi-api
-    runtime: docker
-    dockerfilePath: ./Dockerfile
-    healthCheckPath: /health
-    envVars:
-      - key: NODE_ENV
-        value: production
